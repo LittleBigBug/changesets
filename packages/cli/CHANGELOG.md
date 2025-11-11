@@ -1,5 +1,28 @@
 # @changesets/cli
 
+## 2.30.0
+
+### Minor Changes
+
+- [`10d30d2`](https://github.com/changesets/changesets/commit/10d30d20206fb8b1c624e8054d72a55ea9f9dada) Thanks [@LittleBigBug](https://github.com/LittleBigBug)! - Added basic bun support and custom "deploy" script support
+
+### Patch Changes
+
+- [#1739](https://github.com/changesets/changesets/pull/1739) [`f6f3d0b`](https://github.com/changesets/changesets/commit/f6f3d0bfdb69a80648eee5734762bb59c5cdbbca) Thanks [@CNOCTAVE](https://github.com/CNOCTAVE)! - Tweaked a hint text printed when one confirms an empty set of packages to be released
+
+- Updated dependencies [[`10d30d2`](https://github.com/changesets/changesets/commit/10d30d20206fb8b1c624e8054d72a55ea9f9dada)]:
+  - @changesets/assemble-release-plan@6.1.0
+  - @changesets/types@6.2.0
+  - @changesets/get-release-plan@4.0.14
+  - @changesets/apply-release-plan@7.0.14
+  - @changesets/changelog-git@0.2.2
+  - @changesets/config@3.1.2
+  - @changesets/get-dependents-graph@2.1.4
+  - @changesets/pre@2.0.3
+  - @changesets/read@0.6.6
+  - @changesets/should-skip-package@0.1.3
+  - @changesets/write@0.4.1
+
 ## 2.29.7
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @changesets/assemble-release-plan
 
+## 6.1.0
+
+### Minor Changes
+
+- [`10d30d2`](https://github.com/changesets/changesets/commit/10d30d20206fb8b1c624e8054d72a55ea9f9dada) Thanks [@LittleBigBug](https://github.com/LittleBigBug)! - Added basic bun support and custom "deploy" script support
+
+### Patch Changes
+
+- Updated dependencies [[`10d30d2`](https://github.com/changesets/changesets/commit/10d30d20206fb8b1c624e8054d72a55ea9f9dada)]:
+  - @changesets/types@6.2.0
+  - @changesets/get-dependents-graph@2.1.4
+  - @changesets/should-skip-package@0.1.3
+
 ## 6.0.9
 
 ### Patch Changes
