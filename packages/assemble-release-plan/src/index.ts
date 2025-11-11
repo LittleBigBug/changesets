@@ -184,7 +184,7 @@ function assembleReleasePlan(
   });
 
   let releasesValidated = false;
-  while (releasesValidated === false) {
+  while (!releasesValidated) {
     // The map passed in to determineDependents will be mutated
     let dependentAdded = determineDependents({
       releases,
