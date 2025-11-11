@@ -67,7 +67,11 @@ export function getCorrectRegistry(packageJson?: PackageJSON): RegistryInfo {
 
 async function getPublishTool(
   cwd: string
-): Promise<{ name: "npm" } | { name: "bun" } | { name: "pnpm"; shouldAddNoGitChecks: boolean }> {
+): Promise<
+  | { name: "npm" }
+  | { name: "bun" }
+  | { name: "pnpm"; shouldAddNoGitChecks: boolean }
+> {
   const pm = await detect({ cwd });
 
   switch (pm?.name) {
@@ -201,13 +205,18 @@ async function internalPublish(
   let publishTool = await getPublishTool(opts.cwd);
 
   if (packageJson.deploy) {
-    info(`Package ${packageJson.name} marked as deployable, running deployment script`);
-    const { code, stdout, stderr } = await spawn(publishTool.name, ["run", "deploy"], {
-      env: process.env,
-      cwd: opts.cwd,
-    });
-    if (code !== 0)
-      error(stderr.toString() || stdout.toString());
+    info(
+      `Package ${packageJson.name} marked as deployable, running deployment script`
+    );
+    const { code, stdout, stderr } = await spawn(
+      publishTool.name,
+      ["run", "deploy"],
+      {
+        env: process.env,
+        cwd: opts.cwd,
+      }
+    );
+    if (code !== 0) error(stderr.toString() || stdout.toString());
     return { published: code === 0 };
   }
 
@@ -233,23 +242,21 @@ async function internalPublish(
   let { code, stdout, stderr } =
     publishTool.name === "bun"
       ? await spawn("bun", ["publish", ...publishFlags], {
-        env: Object.assign({}, process.env, envOverride),
-        cwd: opts.cwd,
-      })
-      : (
-        publishTool.name === "pnpm"
-          ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
+          env: Object.assign({}, process.env, envOverride),
+          cwd: opts.cwd,
+        })
+      : publishTool.name === "pnpm"
+      ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
+          env: Object.assign({}, process.env, envOverride),
+          cwd: opts.cwd,
+        })
+      : await spawn(
+          publishTool.name,
+          ["publish", opts.publishDir, "--json", ...publishFlags],
+          {
             env: Object.assign({}, process.env, envOverride),
-            cwd: opts.cwd,
-          })
-          : await spawn(
-            publishTool.name,
-            ["publish", opts.publishDir, "--json", ...publishFlags],
-            {
-              env: Object.assign({}, process.env, envOverride),
-            }
-          )
-      );
+          }
+        );
   if (code !== 0) {
     // NPM's --json output is included alongside the `prepublish` and `postpublish` output in terminal
     // We want to handle this as best we can but it has some struggles:

@@ -18,11 +18,7 @@ export default async function tag(cwd: string, config: Config) {
       })
   );
 
-  const untagged = await getUntaggedPackages(
-    taggablePackages,
-    cwd,
-    tool
-  );
+  const untagged = await getUntaggedPackages(taggablePackages, cwd, tool);
 
   if (untagged.length === 0) {
     log("No untagged projects to tag");
