@@ -1,5 +1,11 @@
 # @changesets/types
 
+## 6.3.0
+
+### Minor Changes
+
+- [`ab5ffa1`](https://github.com/changesets/changesets/commit/ab5ffa1fc4aa0617ffb0416cb2c3c38120e52a48) Thanks [@LittleBigBug](https://github.com/LittleBigBug)! - fix ci
+
 ## 6.2.0
 
 ### Minor Changes

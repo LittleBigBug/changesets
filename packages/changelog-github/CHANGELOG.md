@@ -1,5 +1,12 @@
 # @changesets/changelog-github
 
+## 0.5.3
+
+### Patch Changes
+
+- Updated dependencies [[`ab5ffa1`](https://github.com/changesets/changesets/commit/ab5ffa1fc4aa0617ffb0416cb2c3c38120e52a48)]:
+  - @changesets/types@6.3.0
+
 ## 0.5.2
 
 ### Patch Changes
