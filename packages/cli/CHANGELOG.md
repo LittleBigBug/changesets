@@ -1,5 +1,26 @@
 # @changesets/cli
 
+## 2.32.0
+
+### Minor Changes
+
+- [`4f39a33`](https://github.com/changesets/changesets/commit/4f39a338e2067a96bb9ea4f9748e855b35d69126) Thanks [@LittleBigBug](https://github.com/LittleBigBug)! - fix ci
+
+### Patch Changes
+
+- Updated dependencies [[`4f39a33`](https://github.com/changesets/changesets/commit/4f39a338e2067a96bb9ea4f9748e855b35d69126)]:
+  - @changesets/assemble-release-plan@6.3.0
+  - @changesets/types@6.4.0
+  - @changesets/get-release-plan@4.0.16
+  - @changesets/apply-release-plan@7.0.16
+  - @changesets/changelog-git@0.2.4
+  - @changesets/config@3.1.4
+  - @changesets/get-dependents-graph@2.1.6
+  - @changesets/pre@2.0.5
+  - @changesets/read@0.6.8
+  - @changesets/should-skip-package@0.1.5
+  - @changesets/write@0.4.3
+
 ## 2.31.0
 
 ### Minor Changes

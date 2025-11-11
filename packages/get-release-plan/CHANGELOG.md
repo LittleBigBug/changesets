@@ -1,5 +1,16 @@
 # @changesets/get-release-plan
 
+## 4.0.16
+
+### Patch Changes
+
+- Updated dependencies [[`4f39a33`](https://github.com/changesets/changesets/commit/4f39a338e2067a96bb9ea4f9748e855b35d69126)]:
+  - @changesets/assemble-release-plan@6.3.0
+  - @changesets/types@6.4.0
+  - @changesets/config@3.1.4
+  - @changesets/pre@2.0.5
+  - @changesets/read@0.6.8
+
 ## 4.0.15
 
 ### Patch Changes

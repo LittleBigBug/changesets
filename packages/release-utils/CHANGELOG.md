@@ -1,5 +1,14 @@
 # @changesets/release-utils
 
+## 0.2.8
+
+### Patch Changes
+
+- Updated dependencies [[`4f39a33`](https://github.com/changesets/changesets/commit/4f39a338e2067a96bb9ea4f9748e855b35d69126)]:
+  - @changesets/types@6.4.0
+  - @changesets/pre@2.0.5
+  - @changesets/read@0.6.8
+
 ## 0.2.7
 
 ### Patch Changes
