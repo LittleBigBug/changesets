@@ -1,5 +1,12 @@
 # @changesets/pre
 
+## 2.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`4f39a33`](https://github.com/changesets/changesets/commit/4f39a338e2067a96bb9ea4f9748e855b35d69126)]:
+  - @changesets/types@6.4.0
+
 ## 2.0.4
 
 ### Patch Changes
