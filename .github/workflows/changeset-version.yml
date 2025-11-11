@@ -11,7 +11,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   release:
     name: Release
-    if: github.repository == 'changesets/changesets'
+    if: github.repository == 'LittleBigBug/changesets'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:

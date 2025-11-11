@@ -55,6 +55,7 @@ export type PackageJSON = {
     registry?: string;
     [registry: `${string}:registry`]: string;
   };
+  deploy?: boolean;
 };
 
 export type PackageGroup = ReadonlyArray<string>;

@@ -67,23 +67,34 @@ export function getCorrectRegistry(packageJson?: PackageJSON): RegistryInfo {
 
 async function getPublishTool(
   cwd: string
-): Promise<{ name: "npm" } | { name: "pnpm"; shouldAddNoGitChecks: boolean }> {
+): Promise<
+  | { name: "npm" }
+  | { name: "bun" }
+  | { name: "pnpm"; shouldAddNoGitChecks: boolean }
+> {
   const pm = await detect({ cwd });
-  if (!pm || pm.name !== "pnpm") return { name: "npm" };
-  try {
-    let result = await spawn("pnpm", ["--version"], { cwd });
-    let version = result.stdout.toString().trim();
-    let parsed = semverParse(version);
-    return {
-      name: "pnpm",
-      shouldAddNoGitChecks:
-        parsed?.major === undefined ? false : parsed.major >= 5,
-    };
-  } catch (e) {
-    return {
-      name: "pnpm",
-      shouldAddNoGitChecks: false,
-    };
+
+  switch (pm?.name) {
+    case "pnpm":
+      try {
+        let result = await spawn("pnpm", ["--version"], { cwd });
+        let version = result.stdout.toString().trim();
+        let parsed = semverParse(version);
+        return {
+          name: "pnpm",
+          shouldAddNoGitChecks:
+            parsed?.major === undefined ? false : parsed.major >= 5,
+        };
+      } catch (e) {
+        return {
+          name: "pnpm",
+          shouldAddNoGitChecks: false,
+        };
+      }
+    case "bun":
+      return { name: "bun" };
+    default:
+      return { name: "npm" };
   }
 }
 
@@ -192,6 +203,23 @@ async function internalPublish(
   twoFactorState: TwoFactorState
 ): Promise<{ published: boolean }> {
   let publishTool = await getPublishTool(opts.cwd);
+
+  if (packageJson.deploy) {
+    info(
+      `Package ${packageJson.name} marked as deployable, running deployment script`
+    );
+    const { code, stdout, stderr } = await spawn(
+      publishTool.name,
+      ["run", "deploy"],
+      {
+        env: process.env,
+        cwd: opts.cwd,
+      }
+    );
+    if (code !== 0) error(stderr.toString() || stdout.toString());
+    return { published: code === 0 };
+  }
+
   let publishFlags = opts.access ? ["--access", opts.access] : [];
   publishFlags.push("--tag", opts.tag);
 
@@ -212,7 +240,12 @@ async function internalPublish(
   };
 
   let { code, stdout, stderr } =
-    publishTool.name === "pnpm"
+    publishTool.name === "bun"
+      ? await spawn("bun", ["publish", ...publishFlags], {
+          env: Object.assign({}, process.env, envOverride),
+          cwd: opts.cwd,
+        })
+      : publishTool.name === "pnpm"
       ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
           env: Object.assign({}, process.env, envOverride),
           cwd: opts.cwd,
@@ -230,31 +263,33 @@ async function internalPublish(
     // - output of those lifecycle scripts can contain JSON
     // - npm7 has switched to printing `--json` errors to stderr (https://github.com/npm/cli/commit/1dbf0f9bb26ba70f4c6d0a807701d7652c31d7d4)
     // Note that the `--json` output is always printed at the end so this should work
-    let json =
-      getLastJsonObjectFromString(stderr.toString()) ||
-      getLastJsonObjectFromString(stdout.toString());
+    if (publishTool.name !== "bun") {
+      let json =
+        getLastJsonObjectFromString(stderr.toString()) ||
+        getLastJsonObjectFromString(stdout.toString());
 
-    if (json?.error) {
-      // The first case is no 2fa provided, the second is when the 2fa is wrong (timeout or wrong words)
-      if (
-        (json.error.code === "EOTP" ||
-          (json.error.code === "E401" &&
-            json.error.detail.includes("--otp=<code>"))) &&
-        !isCI
-      ) {
-        if (twoFactorState.token !== null) {
-          // the current otp code must be invalid since it errored
-          twoFactorState.token = null;
+      if (json?.error) {
+        // The first case is no 2fa provided, the second is when the 2fa is wrong (timeout or wrong words)
+        if (
+          (json.error.code === "EOTP" ||
+            (json.error.code === "E401" &&
+              json.error.detail.includes("--otp=<code>"))) &&
+          !isCI
+        ) {
+          if (twoFactorState.token !== null) {
+            // the current otp code must be invalid since it errored
+            twoFactorState.token = null;
+          }
+          // just in case this isn't already true
+          twoFactorState.isRequired = Promise.resolve(true);
+          return internalPublish(packageJson, opts, twoFactorState);
         }
-        // just in case this isn't already true
-        twoFactorState.isRequired = Promise.resolve(true);
-        return internalPublish(packageJson, opts, twoFactorState);
+        error(
+          `an error occurred while publishing ${packageJson.name}: ${json.error.code}`,
+          json.error.summary,
+          json.error.detail ? "\n" + json.error.detail : ""
+        );
       }
-      error(
-        `an error occurred while publishing ${packageJson.name}: ${json.error.code}`,
-        json.error.summary,
-        json.error.detail ? "\n" + json.error.detail : ""
-      );
     }
 
     error(stderr.toString() || stdout.toString());

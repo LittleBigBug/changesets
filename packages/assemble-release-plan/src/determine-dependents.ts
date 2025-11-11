@@ -71,9 +71,8 @@ export default function determineDependents({
           );
 
           for (const { depType, versionRange } of dependencyVersionRanges) {
-            if (nextRelease.type === "none") {
-              continue;
-            } else if (
+            if (nextRelease.type === "none") continue;
+            if (
               shouldBumpMajor({
                 dependent,
                 depType,
