@@ -1,5 +1,18 @@
 # @changesets/assemble-release-plan
 
+## 6.2.0
+
+### Minor Changes
+
+- [`ab5ffa1`](https://github.com/changesets/changesets/commit/ab5ffa1fc4aa0617ffb0416cb2c3c38120e52a48) Thanks [@LittleBigBug](https://github.com/LittleBigBug)! - fix ci
+
+### Patch Changes
+
+- Updated dependencies [[`ab5ffa1`](https://github.com/changesets/changesets/commit/ab5ffa1fc4aa0617ffb0416cb2c3c38120e52a48)]:
+  - @changesets/types@6.3.0
+  - @changesets/get-dependents-graph@2.1.5
+  - @changesets/should-skip-package@0.1.4
+
 ## 6.1.0
 
 ### Minor Changes
