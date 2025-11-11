@@ -1,5 +1,14 @@
 # @changesets/apply-release-plan
 
+## 7.0.14
+
+### Patch Changes
+
+- Updated dependencies [[`10d30d2`](https://github.com/changesets/changesets/commit/10d30d20206fb8b1c624e8054d72a55ea9f9dada)]:
+  - @changesets/types@6.2.0
+  - @changesets/config@3.1.2
+  - @changesets/should-skip-package@0.1.3
+
 ## 7.0.13
 
 ### Patch Changes
